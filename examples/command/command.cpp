@@ -547,6 +547,7 @@ int process_general_transcription(struct whisper_context * ctx, audio_async & au
     bool is_running  = true;
     bool have_prompt = false;
     bool ask_prompt  = true;
+    FILE* fout       = NULL;
 
     float logprob_min0 = 0.0f;
     float logprob_min  = 0.0f;
@@ -559,6 +560,10 @@ int process_general_transcription(struct whisper_context * ctx, audio_async & au
 
     std::vector<float> pcmf32_cur;
     std::vector<float> pcmf32_prompt;
+
+    if (!params.fname_out.empty()) {
+        fout = fopen(params.fname_out.c_str(), "w");
+    }
 
     std::string k_prompt = "Ok Whisper, start listening for commands.";
     if (!params.prompt.empty()) {
@@ -665,6 +670,10 @@ int process_general_transcription(struct whisper_context * ctx, audio_async & au
                         const std::string command = ::trim(txt.substr(best_len));
 
                         fprintf(stdout, "%s: Command '%s%s%s', (t = %d ms)\n", __func__, "\033[1m", command.c_str(), "\033[0m", (int) t_ms);
+                        if (fout) {
+                            fprintf(fout, "%s\n", command.c_str());
+                            fflush(fout);
+                        }
                     }
 
                     fprintf(stdout, "\n");
