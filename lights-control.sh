@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Control lights (currently just output a simple action name) with a voice command.
+#
+# Use
+#
+#  ./command -m ./models/ggml-small.en.bin -t 8 -f voice-commands.txt
+#
+# to make whisper.cpp command write recognised commands to a file.
+# Then use
+#
+#  echo > lights-control.history.txt; tail -f voice-commands.txt | xargs -L1 ./lights-control.sh ; stty sane
+#
+# as the shell driver to use this script for each recognised command.
+
 #set -x
 
 input="$@"
