@@ -671,7 +671,7 @@ int process_general_transcription(struct whisper_context * ctx, audio_async & au
 
                         fprintf(stdout, "%s: Command '%s%s%s', (t = %d ms)\n", __func__, "\033[1m", command.c_str(), "\033[0m", (int) t_ms);
                         if (fout) {
-                            fprintf(fout, "%s\n", command.c_str());
+                            fprintf(fout, "\"%s\"\n", command.c_str());
                             fflush(fout);
                         }
                     }
